@@ -1,4 +1,5 @@
-merge.out
+*.out
 temp/*
 *.bin
 *.csv
+.vscode

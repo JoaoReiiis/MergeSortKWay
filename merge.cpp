@@ -15,12 +15,12 @@ string getPeriod(const string &line) {
   return line.substr(pos1 + 1, pos2 - pos1 - 1);
 }
 
-int main() {
-  const int k = 16;
+
+void mergeMultiway(int k, string entrada){
   const string INPUT_FILE_PREFIX = "temp/F";
   const string OUTPUT_FILE_PREFIX = "temp/S";
 
-  ifstream entradaCSV("dados.csv", ios::in | ios::binary);
+  ifstream entradaCSV(entrada, ios::in | ios::binary);
   string cabecalho;
   getline(entradaCSV, cabecalho);
 
@@ -83,9 +83,9 @@ int main() {
           somaPresentes++;
         }
       }
+      
       if (somaPresentes == 0) {
         aindaTemRuns = false;
-        break;
       }
 
       int countRunsNaVez = somaPresentes;
@@ -137,11 +137,11 @@ int main() {
   }
 
   string finalPrefix = (flip ? INPUT_FILE_PREFIX : OUTPUT_FILE_PREFIX);
-  string sortedBin = "ordenado.bin";
-  string sortedCSV = "ordenado.csv";
+  string ordenadoBin = "ordenado.bin";
+  string ordenadoCSV = "ordenado.csv";
 
   ifstream inputFinal(finalPrefix + "0.bin", ios::in | ios::binary);
-  ofstream outputFinal(sortedBin, ios::out | ios::binary | ios::trunc);
+  ofstream outputFinal(ordenadoBin, ios::out | ios::binary | ios::trunc);
   char buffer[4096];
   while (inputFinal.good()) {
     inputFinal.read(buffer, sizeof(buffer));
@@ -150,9 +150,8 @@ int main() {
     outputFinal.flush();
   }
 
-  {
-    ifstream inputBin(sortedBin, ios::in | ios::binary);
-    ofstream outputCSV(sortedCSV, ios::out | ios::trunc);
+    ifstream inputBin(ordenadoBin, ios::in | ios::binary);
+    ofstream outputCSV(ordenadoCSV, ios::out | ios::trunc);
     outputCSV << cabecalho << '\n';
     int len;
     while (inputBin.read(reinterpret_cast<char *>(&len), sizeof(int))) {
@@ -163,7 +162,6 @@ int main() {
       delete[] linha;
       outputCSV.flush();
     }
-  }
 
   cout << "Ordenação concluída. Total de registros: " << totalRegistros << "\n";
   auto fim = chrono::high_resolution_clock::now();
@@ -172,5 +170,11 @@ int main() {
   cout << "Tempo total de execução: " << duracao << " ms\n";
   cout << "Quantidade de arquivos: " << k << "\n";
 
+}
+
+int main() {
+  const int k = 16;
+  string entrada = "dados.csv";
+  mergeMultiway(k, entrada);
   return 0;
 }
