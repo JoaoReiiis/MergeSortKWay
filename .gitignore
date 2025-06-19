@@ -1,5 +1,4 @@
 *.out
-temp/*
 *.bin
 *.csv
 .vscode

@@ -1,4 +1,3 @@
-#include <chrono>
 #include <fstream>
 #include <iostream>
 
@@ -46,7 +45,6 @@ void mergeMultiway(int k, string entrada){
 
   int blocoTamanho = 1;
   bool flip = true;
-  auto inicio = chrono::high_resolution_clock::now();
 
   while (blocoTamanho < totalRegistros) {
     string prefixIn = (flip ? INPUT_FILE_PREFIX : OUTPUT_FILE_PREFIX);
@@ -162,14 +160,6 @@ void mergeMultiway(int k, string entrada){
       delete[] linha;
       outputCSV.flush();
     }
-
-  cout << "Ordenação concluída. Total de registros: " << totalRegistros << "\n";
-  auto fim = chrono::high_resolution_clock::now();
-  auto duracao =
-      chrono::duration_cast<chrono::milliseconds>(fim - inicio).count();
-  cout << "Tempo total de execução: " << duracao << " ms\n";
-  cout << "Quantidade de arquivos: " << k << "\n";
-
 }
 
 int main() {
